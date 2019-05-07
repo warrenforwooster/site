@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="shortcut icon" href="favicon.ico" /> 
+  <meta charset="utf-8">
+  <title>Warren</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+  <!-- Default font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+
+  <!-- Jumbotron 'Wooster' font -->
+  <link href="https://fonts.googleapis.com/css?family=Bilbo+Swash+Caps" rel="stylesheet">
+
+  <!-- Jumbotron 'Warren' font -->
+  <link href="https://fonts.googleapis.com/css?family=Cinzel" rel="stylesheet">
+
+  <!-- Twitter API -->
+  <meta name="twitter:widgets:theme" content="dark">
+
+  <!-- Social Icons -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+  <script type="text/javascript" src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+        emailjs.init("user_Z15VkoZyhisE26y3tiRUO");
+    })();
+  </script>
+  <script>
+
+    window.onload = function() {
+      document.getElementById('contact-form').addEventListener('submit', function(event) {
+          event.preventDefault();
+          emailjs.sendForm('default_service', 'default', this);
+      });
+
+      var intervalID = window.setInterval(printScrollPos, 500);
+    }
+
+    window.onscroll = function() {
+      var home = document.getElementById('home-container');
+      var nav = document.getElementById('navbar');
+
+      if ((window.pageYOffset) >= home.offsetHeight - nav.offsetHeight) {
+        nav.style.backgroundColor = '#2d2d30';
+        nav.style.opacity = '.95';
+        nav.style.fontSize = '1.5rem';
+      } else {
+        nav.style.backgroundColor = 'rgb(51, 58, 64, 0)';
+        nav.style.fontSize = '2.5rem';
+      }
+    }
+
+    function loadStates() {
+      var select = document.getElementById('state-select');
+      console.log('children.length: ' + select.children.length);
+      if (select.children.length < 3) {
+        console.log('loadStates!');
+        var states_ary = ['OH - Ohio','---------','AL - Alabama','AK - Alaska','AZ - Arizona','AR - Arkansas','CA - California','CO - Colorado','CT - Connecticut','DE - Delaware','FL - Florida','GA - Georgia','HI - Hawaii','ID - Idaho','IL - Illinois','IN - Indiana','IA - Iowa','KS - Kansas','KY - Kentucky','LA - Louisiana','ME - Maine','MD - Maryland','MA - Massachusetts','MI - Michigan','MN - Minnesota','MS - Mississippi','MO - Missouri','MT - Montana','NE - Nebraska','NV - Nevada','NH - New Hampshire','NJ - New Jersey','NM - New Mexico','NY - New York','NC - North Carolina','ND - North Dakota','OH - Ohio','OK - Oklahoma','OR - Oregon','PA - Pennsylvania','PR - Puerto Rico','RI - Rhode Island','SC - South Carolina','SD - South Dakota','TN - Tennessee','TX - Texas','UT - Utah','VT - Vermont','VA - Virginia','WA - Washington','WV - West Virginia','WI - Wisconsin','WY - Wyoming'];
+        for (var i = 0; i < states_ary.length; i++) {
+          var option = document.createElement('option');
+          option.textContent = states_ary[i];
+          if (i === 1)
+            option.disabled = true;
+          select.appendChild(option);
+        }
+      }
+    }
+
+    function printScrollPos() {
+      console.log('scroll pos: ' + window.pageYOffset);
+    }
+
+    /*
+      if scrollpos >= home-container height - nav height
+      (meaning the nav is about to scroll over the top of the about element)
+        set css of nav to be opaquish  
+    */
+
+
+
+
+  </script>
+</head>
+
+<body class="bg-secondary" data-spy="scroll" data-target="#navbar" data-offset="500">
+
+
+  
+  <!-- Nav -->
+  <nav class="navbar fixed-top navbar-expand-lg nav-fill navbar-dark" id="navbar">
+    <a class="navbar-brand" href="#home-container">Logo</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#about-container">about</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#policies-container">policies</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link nav-last" href="#volunteer-container">help out</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#contact">contact</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Home -->
+  <div class="container-fluid" id="home-container">
+    <span class="landing-txt">
+      <span id="landing-txt-warren">Warren </span>
+      <span id="landing-txt-for">for </span>
+      <span id="landing-txt-wooster">Wooster</span><br />
+      <a href="#about-container" id="landing-txt-arrow">
+        <i class="material-icons bounce">
+          keyboard_arrow_down
+        </i>
+      </a>
+    </span>
+  </div>
+
+  <!-- About -->
+  <div class="container text-light" id="about-container">
+    <div class="row feature-row">
+      <div class="col-sm-8">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque finibus, sem vel mattis feugiat, elit neque porttitor nisl, ac malesuada sapien velit ac felis. Proin aliquet, ex vitae luctus ornare, tortor est placerat odio, id placerat augue odio id lacus. Sed mollis leo dapibus nulla aliquam, at dignissim turpis gravida. Sed fringilla elit in consectetur rhoncus. Nulla posuere elit est, id auctor magna tempus ut. Mauris sodales nisi ac imperdiet pellentesque. Ut est dui, elementum eu eros id, suscipit ullamcorper risus. Vestibulum varius diam eu bibendum interdum. Phasellus iaculis odio et laoreet interdum. Nulla tempus pellentesque quam in ullamcorper. Pellentesque posuere urna quis justo sodales ultrices. Vestibulum hendrerit blandit diam. Donec a pellentesque mi.</p>
+  
+          Ut tristique nulla nibh, quis auctor elit ultrices sed. Donec ut dolor nec sapien posuere iaculis. Fusce imperdiet, mi quis sollicitudin posuere, leo felis dapibus risus, ac tempor nisi mauris in sem. Donec vulputate urna orci, sit amet bibendum risus ultrices non. In hac habitasse platea dictumst. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque efficitur odio et porttitor fringilla.</p>
+          
+          Nulla imperdiet nulla nunc, nec convallis felis porttitor non. Donec et purus sed diam suscipit blandit. Curabitur vel eros a nulla rutrum faucibus. Praesent at placerat lacus, sed scelerisque odio. Proin leo arcu, ultrices a vulputate quis, feugiat a erat. Morbi sit amet elementum erat, ut venenatis erat. Praesent arcu tellus, feugiat sit amet egestas eu, porta quis arcu. Nunc commodo suscipit felis ac euismod. Etiam tellus tellus, porttitor vel risus euismod, bibendum ornare elit. Mauris a suscipit sem. Nulla facilisi. Quisque finibus euismod aliquam.</p>
+          
+          Fusce lobortis at risus vitae cursus. Cras dictum dictum euismod. Pellentesque velit lacus, condimentum sed lectus nec, ullamcorper condimentum nunc. Nulla at dolor egestas nisl vulputate aliquam eu vel arcu. In aliquet quam velit, vitae.</p>
+      </div>
+      <div class="col-sm-4 mt-auto mb-auto">
+        <div class="card">
+          <img src="images/penguin.jpg" class="card-img-top" alt="about image">
+          <div class="card-body text-center">
+            <div class="card-text text-dark">Oliver Warren</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container text-body mt-5" id="policies-container">
+    <h1 class="text-center text-light">Policies</h1>
+    <div class="row feature-row">
+      <div class="col">
+        <div class="accordion" id="accordionExample">
+          <div class="card">
+            <div class="card-header" id="headingOne">
+              <h2 class="mb-0">
+                <button class="btn btn-link text-dark" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Policy #1
+                </button>
+              </h2>
+            </div>
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+              <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingTwo">
+              <h2 class="mb-0">
+                <button class="btn btn-link collapsed text-dark" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Policy #2
+                </button>
+              </h2>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+              <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingThree">
+              <h2 class="mb-0">
+                <button class="btn btn-link collapsed text-dark" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  Policy #3
+                </button>
+              </h2>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+              <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Parallax -->
+  <div class="parallax"></div>
+
+  <!-- Help Out -->
+  <div class="container-fluid text-center bg-dark" id="volunteer-container">
+    <div class="row feature-row">
+      <div class="col-sm-6 text-light pl-5 pr-5 mt-auto mb-auto">
+        <h5>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque finibus, sem vel mattis feugiat, elit neque porttitor nisl, ac malesuada sapien velit ac felis. Proin aliquet, ex vitae luctus ornare, tortor est placerat odio, id placerat augue odio id lacus. Sed mollis leo dapibus nulla aliquam, at dignissim turpis gravida. Sed fringilla elit in consectetur rhoncus. Nulla posuere elit est, id auctor magna tempus ut. Mauris sodales nisi ac imperdiet pellentesque. Ut est dui, elementum eu eros id, suscipit ullamcorper risus.</h5>
+        <a href="https://www.crowdpac.com/c/warrenforwooster" target="_blank" class="btn btn-lg btn-block btn-primary mt-5 ml-auto mr-auto" style="width: 80%;">MAKE A DONATION</a>
+      </div>
+      <div class="col-sm-6">
+        <div class="card align-middle bg-light text-dark">
+          <div class="card-body">
+            <div class="card-title">
+              <h3>Volunteer</h3>
+            </div>
+            <div class="card-subtitle">
+              <h5>Help out our cause</h5>
+            </div>
+            <form id="volunteer-form" name="volunteer-form">
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="v_first" name="v_first" placeholder="First Name">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="v_last" name="v_last" placeholder="Last Name">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <input type="email" class="form-control" id="v_email" name="v_email" placeholder="Email">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <input type="tel" class="form-control" id="v_phone" name="v_phone" placeholder="Phone">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="v_address" name="v_address" placeholder="Street Address">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="v_city" name="v_city" placeholder="City">
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <select class="custom-select" id="state-select" onclick="loadStates()">
+                      <option selected>State (select)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <textarea rows="3" class="form-control" id="message" name="message" placeholder="How can you help?"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="text-right">
+                <input type="submit" class="btn btn-primary" value="SEND">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <div class="map-wrapper" id="contact">
+    <div class="card align-middle bg-light" id="contact-card">
+      <form id="contact-form" name="contact-form" class="needs-validation" novalidate>
+        <div class="card-body text-center">
+          <div class="card-title">
+            <h3>Contact</h3>
+          </div>
+          <div class="card-subtitle">
+            <h5>Get in touch</h5>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
+            <div class="invalid-tooltip">
+                Please provide a name.
+              </div>
+          </div>
+          <div class="form-group">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+          </div>
+          <div class="form-group">
+            <textarea rows="3" class="form-control" id="message" name="message" placeholder="Message" required></textarea>
+          </div>
+
+          <div class="text-right">
+            <button type="submit" class="btn btn-primary">SEND</button>
+          </div>
+        </div>
+        <div class="card-footer text-center">
+          <!-- <a href="https://www.facebook.com/WarrenforWooster/" class="fa fa-facebook"></a>
+          <a href="https://www.instagram.com/warrenforwooster/" class="fa fa-instagram"></a>
+          <a href="https://twitter.com/WarrenforWoo" class="fa fa-twitter"></a> -->
+          <span class="fa-stack fa-2x">
+            <a href="https://www.facebook.com/WarrenforWooster/" target="_blank">
+              <i class="fas fa-circle fa-stack-2x" style="color: #3b5998;"></i>
+              <i class="fab fa-facebook-f fa-stack-1x fa-inverse" style="color: white;"></i>
+            </a>
+          </span>
+          <span class="fa-stack fa-2x">
+            <a href="https://twitter.com/WarrenforWoo" target="_blank">
+              <i class="fas fa-circle fa-stack-2x" style="color: #1da1f2;"></i>
+              <i class="fab fa-twitter fa-stack-1x fa-inverse" style="color: white;"></i>
+            </a>
+          </span>
+          <span class="fa-stack fa-2x">
+            <a href="https://www.instagram.com/warrenforwooster/" target="_blank">
+              <i class="fas fa-circle fa-stack-2x" style="color: #833AB4;"></i>
+              <i class="fab fa-instagram fa-stack-1x fa-inverse" style="color: white;"></i>
+            </a>
+          </span>
+        </div>
+      </form>
+    </div>
+    <div id="map"></div>
+  </div>
+
+
+  <script>
+    var map;
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        mapTypeId: 'satellite',
+        center: {lat: 40.797592, lng: -81.952860},
+        zoom: 15,
+        mapTypeControl: false,
+        zoomControl: false,
+        streetViewControl: false,
+        gestureHandling: 'none',
+        fullscreenControl: false
+      });
+    }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvZFcPkCL6EbWz260gsaXIqu-XtVEFjDs&callback=initMap"
+  async defer></script>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
