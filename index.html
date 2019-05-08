@@ -31,23 +31,165 @@
   <!-- Social Icons -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
-  <!-- Validate.js -->
-  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.12.0/validate.min.js"></script> -->
-
   <!-- EmailJS -->
   <script type="text/javascript" src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
   <script type="text/javascript">
     (function(){
-        emailjs.init("user_Z15VkoZyhisE26y3tiRUO");
+        emailjs.init("user_z8sjiYu98QXeBMn6lJNMm");
     })();
   </script>
   <script>
 
     window.onload = function() {
 
+      document.getElementById('volunteer-form').addEventListener('submit', function(event) {
+          event.preventDefault();
+
+          var first = document.getElementById('v_first').value.trim();
+          var last = document.getElementById('v_last').value.trim();
+          var email = document.getElementById('v_email').value.trim();
+          var phone = document.getElementById('v_phone').value.trim();
+          var address = document.getElementById('v_address').value.trim();
+          var city = document.getElementById('v_city').value.trim();
+          var state = document.getElementById('v_state').value.trim();
+          var message = document.getElementById('v_message').value.trim();
+
+          nameRegex = /^[A-Za-z\.\,\'\"\(\) ]+$/;
+          emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          phoneRegex = /^[0-9\.\,\/\?\!\;\:\'\"\(\)\@\#\$\%\&\*\-\_\+\= ]+$/;
+          cityRegex = nameRegex;
+          messageRegex = /^[A-Za-z0-9\.\,\/\?\!\;\:\'\"\(\)\@\#\$\%\&\*\-\_\+\= ]+$/;
+          addressRegex = messageRegex;
+
+          // v_first validation
+          if (first.match(nameRegex) === null || first === "" || first.length < 2) {
+            document.getElementById('v_first_error').style.display = "block";
+            return;
+          } else
+            document.getElementById('v_first_error').style.display = "none";
+            
+          // v_last validation
+          if (last.match(nameRegex) === null || last === "" || last.length < 2) {
+            document.getElementById('v_last_error').style.display = "block";
+            return;
+          } else
+            document.getElementById('v_last_error').style.display = "none";
+
+          // email validation
+          if (email.match(emailRegex) === null || email === "") {
+            document.getElementById('v_email_error').style.display = "block";
+            return;
+          } else
+            document.getElementById('v_email_error').style.display = "none";
+
+          // phone validation
+          if (phone === "")
+            document.getElementById('v_phone_error').style.display = "none";
+          else if (phone.match(phoneRegex) === null) {
+            document.getElementById('v_phone_error').style.display = "block";
+            return;
+          } else
+            document.getElementById('v_phone_error').style.display = "none";
+            
+          // address validation
+          if (address === "")
+            document.getElementById('v_address_error').style.display = "none";
+          else if (address.match(addressRegex) === null) {
+            document.getElementById('v_address_error').style.display = "block";
+            return;
+          } else
+            document.getElementById('v_address_error').style.display = "none";
+
+          // city validation
+          if (city.match(cityRegex) === null || city === "" || first.length < 2) {
+            document.getElementById('v_city_error').style.display = "block";
+            return;
+          } else
+            document.getElementById('v_city_error').style.display = "none";
+
+          // state validation
+          if (state === "State (select)") {
+            document.getElementById('v_state_error').style.display = "block";
+            return;
+          } else
+            document.getElementById('v_state_error').style.display = "none";
+
+          // message validation
+          if (message.match(messageRegex) === null || message === "" || first.length < 5) {
+            document.getElementById('v_message_error').style.display = "block";
+            return;
+          } else
+            document.getElementById('v_message_error').style.display = "none";
+
+          var templateParams = {
+            first: first,
+            last: last,
+            email: email,
+            phone: phone,
+            address: address,
+            city: city,
+            state: state,
+            message: message
+          };
+          emailjs.send('default_service', 'volunteer', templateParams)
+            .then(function(response) {
+              console.log("Success! ", response);
+              document.getElementById('volunteer_submit').style.display = "none";
+              document.getElementById('volunteer_submit_success').style.display = "block";
+            }, function(error) {
+              console.log("Failed! ", error);
+              document.getElementById('volunteer_submit').style.display = "none";
+              document.getElementById('volunteer_submit_error').style.display = "block";
+            });
+      });
+
       document.getElementById('contact-form').addEventListener('submit', function(event) {
           event.preventDefault();
-          emailjs.sendForm('default_service', 'default', this);
+
+          var name = document.getElementById('name').value.trim();
+          var email = document.getElementById('email').value.trim();
+          var message = document.getElementById('message').value.trim();
+
+          nameRegex = /^[A-Za-z\.\,\'\"\(\) ]+$/;
+          emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          messageRegex = /^[A-Za-z0-9\.\,\/\?\!\;\:\'\"\(\)\@\#\$\%\&\*\-\_\+\= ]+$/;
+
+          // name validation
+          if (name.match(nameRegex) === null || name === "") {
+            document.getElementById('name_error').style.display = "block";
+            return;
+          } else
+            document.getElementById('name_error').style.display = "none";
+
+          // email validation
+          if (email.match(emailRegex) === null || email === "") {
+            document.getElementById('email_error').style.display = "block";
+            return;
+          } else
+            document.getElementById('email_error').style.display = "none";
+
+          // message validation
+          if (message.match(messageRegex) === null || message === "") {
+            document.getElementById('message_error').style.display = "block";
+            return;
+          } else
+            document.getElementById('message_error').style.display = "none";
+
+          var templateParams = {
+            name: name,
+            email: email,
+            message: message
+          };
+          emailjs.send('default_service', 'contact', templateParams)
+            .then(function(response) {
+              console.log("Success! ", response);
+              document.getElementById('contact_submit').style.display = "none";
+              document.getElementById('contact_submit_success').style.display = "block";
+            }, function(error) {
+              console.log("Failed! ", error);
+              document.getElementById('contact_submit').style.display = "none";
+              document.getElementById('contact_submit_error').style.display = "block";
+            });
       });
 
       var intervalID = window.setInterval(printScrollPos, 500);
@@ -68,7 +210,7 @@
     }
 
     function loadStates() {
-      var select = document.getElementById('state-select');
+      var select = document.getElementById('v_state');
       console.log('children.length: ' + select.children.length);
       if (select.children.length < 3) {
         console.log('loadStates!');
@@ -147,8 +289,12 @@
   <div class="container text-light" id="about-container">
     <div class="row feature-row">
       <div class="col-sm-8">
-        <p>My name is Oliver Warren and I am running for Wooster City Council at-Large. I currently serve as a social studies teacher at Wooster High School, my alma mater. I was employed immediately after I graduated from the College of Wooster with a BA in Political Science and Education. While growing up and attending school in Wooster, I experienced what it means to be in poverty in our community. For the past three years, I have been a community organizer and advocate on behalf of the most marginalized, vulnerable, and disenfranchised in our community. I translated my advocacy for the marginalized and working- and middle-classes into my undergraduate thesis on local policies and politics to combat housing issues and poverty. I have led in, founded, and built multiple organizations that have fought on behalf of the people, including: the CommUNITY Coalition, Concerned Citizens of Wayne County, Indivisible Wooster, and the Wooster-Orrville NAACP. In the same span of time, I have participated in multiple campaigns for public office; most recently I served as campaign manager for Kevin Barnet for Ohio. When I am elected to Council, I will push for affordable housing and equitable development, road and city infrastructure improvement, public transportation, and a minimum wage increase. I will also work towards transparency, participation, and engagement with folks who have not had the time or privilege to be involved in their local government. I pledge to listen to your concerns and do my best to address them. My office will be open to anyone.
-        I have been fighting for children and working people my whole professional life. I will continue to do so as your next City Councilman. #WarrenforWooster
+        <p>My name is Oliver Warren and I am running for Wooster City Council at-Large.<br><br>
+           I currently serve as a social studies teacher at Wooster High School, my alma mater. I was employed immediately after I graduated from the College of Wooster with a BA in Political Science and Education. While growing up and attending school in Wooster, I experienced what it means to be in poverty in our community. <br><br>
+           For the past three years, I have been a community organizer and advocate on behalf of the most marginalized, vulnerable, and disenfranchised in our community. I translated my advocacy for the marginalized and working- and middle-classes into my undergraduate thesis on local policies and politics to combat housing issues and poverty. I have led in, founded, and built multiple organizations that have fought on behalf of the people, including: the CommUNITY Coalition, Concerned Citizens of Wayne County, Indivisible Wooster, and the Wooster-Orrville NAACP. In the same span of time, I have participated in multiple campaigns for public office; most recently I served as campaign manager for Kevin Barnet for Ohio. <br><br>
+           When I am elected to Council, I will push for affordable housing and equitable development, road and city infrastructure improvement, public transportation, and a minimum wage increase. <br><br>
+           I will also work towards transparency, participation, and engagement with folks who have not had the time or privilege to be involved in their local government. I pledge to listen to your concerns and do my best to address them. My office will be open to anyone.<br><br>
+           I have been fighting for children and working people my whole professional life. I will continue to do so as your next City Councilman. #WarrenforWooster
           </p>
       </div>
       <div class="col-sm-4 mt-auto mb-auto">
@@ -226,7 +372,7 @@
     <div class="row feature-row">
       <div class="col-sm-6 text-light pl-5 pr-5 mt-auto mb-auto">
         <h5>Come see us over at CrowdPac!</h5>
-        <a href="https://www.crowdpac.com/c/warrenforwooster" target="_blank" class="btn btn-lg btn-block btn-primary mt-5 ml-auto mr-auto" style="width: 80%;">CROWDPAC</a>
+        <a href="https://www.crowdpac.com/c/warrenforwooster" target="_blank" class="btn btn-lg btn-block btn-primary mt-5 ml-auto mr-auto" style="width: 80%;">DONATE</a>
       </div>
       <div class="col-sm-6">
         <div class="card align-middle bg-light text-dark">
@@ -237,61 +383,71 @@
             <div class="card-subtitle">
               <h5>Help out our cause</h5>
             </div>
-            <form id="volunteer-form" name="volunteer-form">
+            <form id="volunteer-form" name="volunteer-form" class="needs-validation" novalidate>
               <div class="row">
                 <div class="col">
                   <div class="form-group">
-                    <input type="text" class="form-control" id="v_first" name="v_first" placeholder="First Name">
+                    <input type="text" class="form-control" id="v_first" name="v_first" placeholder="First Name *" required>
+                    <div class="text-left error-div" id="v_first_error" style="display: none;">Enter a valid name</div>
                   </div>
                 </div>
                 <div class="col">
                   <div class="form-group">
-                    <input type="text" class="form-control" id="v_last" name="v_last" placeholder="Last Name">
+                    <input type="text" class="form-control" id="v_last" name="v_last" placeholder="Last Name" required>
+                    <div class="text-left error-div" id="v_last_error" style="display: none;">Enter a valid name</div>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col">
                   <div class="form-group">
-                    <input type="email" class="form-control" id="v_email" name="v_email" placeholder="Email">
+                    <input type="email" class="form-control" id="v_email" name="v_email" placeholder="Email *" required>
+                    <div class="text-left error-div" id="v_email_error" style="display: none;">Enter a valid email</div>
                   </div>
                 </div>
                 <div class="col">
                   <div class="form-group">
-                    <input type="tel" class="form-control" id="v_phone" name="v_phone" placeholder="Phone">
+                    <input type="tel" class="form-control" id="v_phone" name="v_phone" placeholder="Phone" required>
+                    <div class="text-left error-div" id="v_phone_error" style="display: none;">Enter a valid phone number</div>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col">
                   <div class="form-group">
-                    <input type="text" class="form-control" id="v_address" name="v_address" placeholder="Street Address">
+                    <input type="text" class="form-control" id="v_address" name="v_address" placeholder="Street Address" required>
+                    <div class="text-left error-div" id="v_address_error" style="display: none;">Enter a valid address</div>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-8">
                   <div class="form-group">
-                    <input type="text" class="form-control" id="v_city" name="v_city" placeholder="City">
+                    <input type="text" class="form-control" id="v_city" name="v_city" placeholder="City *" required>
+                    <div class="text-left error-div" id="v_city_error" style="display: none;">Enter a valid city</div>
                   </div>
                 </div>
                 <div class="col-4">
                   <div class="form-group">
-                    <select class="custom-select" id="state-select" onclick="loadStates()">
-                      <option selected>State (select)</option>
+                    <select class="custom-select" id="v_state" onfocus="loadStates()" required>
+                      <option selected>State (select) *</option>
                     </select>
+                    <div class="text-left error-div" id="v_state_error" style="display: none;">Select a state</div>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col">
                   <div class="form-group">
-                    <textarea rows="3" class="form-control" id="message" name="message" placeholder="How can you help?"></textarea>
+                    <textarea rows="3" class="form-control" id="v_message" name="v_message" placeholder="How can you help? *"></textarea>
+                    <div class="text-left error-div" id="v_message_error" style="display: none;">Enter a valid message (no special characters)</div>
                   </div>
                 </div>
               </div>
               <div class="text-right">
-                <input type="submit" class="btn btn-primary" value="SEND" disabled>
+                <input type="submit" class="btn btn-primary" id="volunteer_submit" value="SEND">
+                <div style="display: none;" class="success-div" id="volunteer_submit_success">Message sent!</div>
+                <div style="display: none;" class="error-div" id="volunteer_submit_error">Error sending - please try again</div>
               </div>
             </form>
           </div>
@@ -312,26 +468,25 @@
             <h5>Get in touch</h5>
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
-            <div class="invalid-tooltip">
-                Please provide a name.
-              </div>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Name *" required>
+            <div class="text-left error-div" id="name_error" style="display: none;">Enter a valid name</div>
           </div>
           <div class="form-group">
-            <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email *" required>
+            <div class="text-left error-div" id="email_error" style="display: none;">Enter a valid email address</div>
           </div>
           <div class="form-group">
-            <textarea rows="3" class="form-control" id="message" name="message" placeholder="Message" required></textarea>
+            <textarea rows="3" class="form-control" id="message" name="message" placeholder="Message *" required></textarea>
+            <div class="text-left error-div" id="message_error" style="display: none;">Enter a valid message (no special characters)</div>
           </div>
 
           <div class="text-right">
-            <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Enabled Thu, May 9" disabled>SEND</button>
+            <button type="submit" class="btn btn-primary" id="contact_submit">SEND</button>
+            <div style="display: none;" class="success-div" id="contact_submit_success">Message sent!</div>
+            <div style="display: none;" class="error-div" id="contact_submit_error">Error sending - please try again</div>
           </div>
         </div>
         <div class="card-footer text-center">
-          <!-- <a href="https://www.facebook.com/WarrenforWooster/" class="fa fa-facebook"></a>
-          <a href="https://www.instagram.com/warrenforwooster/" class="fa fa-instagram"></a>
-          <a href="https://twitter.com/WarrenforWoo" class="fa fa-twitter"></a> -->
           <span class="fa-stack fa-2x">
             <a href="https://www.facebook.com/WarrenforWooster/" target="_blank">
               <i class="fas fa-circle fa-stack-2x" style="color: #3b5998;"></i>
@@ -350,6 +505,12 @@
               <i class="fab fa-instagram fa-stack-1x fa-inverse" style="color: white;"></i>
             </a>
           </span>
+          <span class="fa-stack fa-2x">
+              <a href="mailto:warrenforwooster@gmail.com">
+                <i class="fas fa-circle fa-stack-2x" style="color: #ffcc00;"></i>
+                <i class="far fa-envelope fa-stack-1x fa-inverse" style="color: white;"></i>
+              </a>
+            </span>
         </div>
       </form>
     </div>
