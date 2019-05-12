@@ -207,6 +207,10 @@
         nav.style.backgroundColor = 'rgb(51, 58, 64, 0)';
         nav.style.fontSize = '2.5rem';
       }
+
+      if ((window.pageYOffset) === document.getElementById('footer').offsetHeight) {
+        console.log(document.getElementById('footer').offsetHeight);
+      }
     }
 
     function loadStates() {
@@ -308,14 +312,14 @@
   </div>
 
   <div class="container text-body mt-5" id="policies-container">
-    <h1 class="text-center text-light">Policies</h1>
+    <h1 class="text-center text-light font-weight-bold">Policies</h1>
     <div class="row feature-row">
       <div class="col">
         <div class="accordion" id="accordionExample">
           <div class="card">
             <div class="card-header" id="headingOne">
               <h2 class="mb-0">
-                <button class="btn btn-link text-dark" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <button class="btn btn-link text-dark pt-0 pb-0 policy-btn" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                   Affordable Housing
                 </button>
               </h2>
@@ -330,7 +334,7 @@
           <div class="card">
             <div class="card-header" id="headingTwo">
               <h2 class="mb-0">
-                <button class="btn btn-link collapsed text-dark" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                <button class="btn btn-link collapsed text-dark pt-0 pb-0 policy-btn" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                   Public Transportation
                 </button>
               </h2>
@@ -347,7 +351,7 @@
           <div class="card">
             <div class="card-header" id="headingThree">
               <h2 class="mb-0">
-                <button class="btn btn-link collapsed text-dark" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                <button class="btn btn-link collapsed text-dark pt-0 pb-0 policy-btn" type="button pt-0 pb-0" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                   City Infrastructure
                 </button>
               </h2>
@@ -371,7 +375,7 @@
     <div class="row feature-row">
       <div class="col-sm-6 text-light pl-5 pr-5 mt-auto mb-auto">
         <h5>Come see us over at CrowdPac!</h5>
-        <a href="https://www.crowdpac.com/c/warrenforwooster" target="_blank" class="btn btn-lg btn-block btn-primary mt-5 ml-auto mr-auto" style="width: 80%;">DONATE</a>
+        <a href="https://www.crowdpac.com/c/warrenforwooster" target="_blank" class="btn btn-lg btn-block btn-primary mt-5 ml-auto mr-auto" id="donate-btn" style="width: 80%;">DONATE</a>
       </div>
       <div class="col-sm-6">
         <div class="card align-middle bg-light text-dark">
@@ -456,7 +460,7 @@
   </div>
 
   <!-- Contact -->
-  <div class="map-wrapper" id="contact">
+  <div class="map-wrapper container-fluid" id="contact">
     <div class="card align-middle bg-light" id="contact-card">
       <form id="contact-form" name="contact-form" class="needs-validation" novalidate>
         <div class="card-body text-center">
@@ -505,21 +509,29 @@
             </a>
           </span>
           <span class="fa-stack fa-2x">
-              <a href="mailto:warrenforwooster@gmail.com">
-                <i class="fas fa-circle fa-stack-2x" style="color: #ffcc00;"></i>
-                <i class="far fa-envelope fa-stack-1x fa-inverse" style="color: white;"></i>
-              </a>
-            </span>
+            <a href="mailto:warrenforwooster@gmail.com">
+              <i class="fas fa-circle fa-stack-2x" style="color: #ffcc00;"></i>
+              <i class="far fa-envelope fa-stack-1x fa-inverse" style="color: white;"></i>
+            </a>
+          </span>
         </div>
       </form>
     </div>
     <div id="map"></div>
   </div>
 
-  <footer class="text-center pt-3 pb-3 text-light">This page was designed and built by 
+  <footer class="text-center pt-3 pb-3 text-light" id="footer">This page was designed and built by 
+    <br class="mobile-br">
     <a href="http://lankmitch95.github.io" target="_blank">
       <u>Mitch Lankford - a Wooster native</u>
     </a>
+    <br class="mobile-br">
+    <span class="fa-stack fa-2x" id="top-icon">
+        <a href="#home-container">
+          <i class="fas fa-circle fa-stack-2x" style="color: #86037f;"></i>
+          <i class="fas fa-arrow-up fa-stack-1x fa-inverse" style="color: white;"></i>
+        </a>
+      </span>
   </footer>
 
 

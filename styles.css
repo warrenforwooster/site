@@ -177,6 +177,7 @@ nav {
 
 .map-wrapper {
     position: relative;
+    padding: 0 !important;
 }
 
 .tab-pane {
@@ -194,4 +195,61 @@ nav {
 
 .success-div {
     color: green;
+}
+
+.policy-btn {
+    font-size: 1.5rem !important;
+}
+
+.mobile-br {
+    display: none;
+}
+
+#top-icon {
+    margin-left: 2rem;
+}
+
+@media screen and (max-width: 800px) {
+    #contact-card {
+        width: 90% !important;
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        margin-bottom: 2em;
+    }
+
+    #map {
+        display: none;
+    }
+
+    nav {
+        width: 100vw !important;
+        background-color: rgb(51, 58, 64, .8);
+    }
+
+    .landing-txt {
+        font-size: 18vw;
+    }
+
+    #landing-txt-warren, #landing-txt-for, #landing-txt-wooster {
+        font-size: auto;
+    }
+
+    #donate-btn {
+        margin-bottom: 3rem !important;
+    }
+
+    .mobile-br {
+        display: inline;
+    }
+
+    .fa-stack {
+        width: 2em !important;
+        margin-left: 0px !important;
+    }
+
+    #top-icon {
+        margin-left: 0;
+    }
 }
