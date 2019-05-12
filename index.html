@@ -199,11 +199,11 @@
       var home = document.getElementById('home-container');
       var nav = document.getElementById('navbar');
 
-      if ((window.pageYOffset) >= home.offsetHeight - nav.offsetHeight) {
+      if ((window.pageYOffset) >= home.offsetHeight - nav.offsetHeight && window.outerWidth > 800) {
         nav.style.backgroundColor = '#2d2d30';
         nav.style.opacity = '.95';
         nav.style.fontSize = '1.5rem';
-      } else {
+      } else if (window.outerWidth > 800) {
         nav.style.backgroundColor = 'rgb(51, 58, 64, 0)';
         nav.style.fontSize = '2.5rem';
       }
