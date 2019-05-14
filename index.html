@@ -38,9 +38,19 @@
         emailjs.init("user_z8sjiYu98QXeBMn6lJNMm");
     })();
   </script>
+
   <script>
 
     window.onload = function() {
+      // Initialize Cloud Firestore through Firebase
+      if (!firebase.apps.length) {
+        console.log("initializing firebase...");
+        firebase.initializeApp({
+          apiKey: 'AIzaSyCIzcOnqpTBIbQYpo3q0LLIpjab2_LLeLE',
+          authDomain: 'warren-1554575635762.firebaseapp.com',
+          projectId: 'warren-1554575635762'
+        });
+      }
 
       document.getElementById('volunteer-form').addEventListener('submit', function(event) {
           event.preventDefault();
@@ -193,7 +203,91 @@
       });
 
       var intervalID = window.setInterval(printScrollPos, 500);
+
+      // load data from Firestore
+      loadData();
     }
+
+  function loadData() {
+    
+    var db = firebase.firestore();
+
+    var policies = db.collection("policies");
+    var mainDocument = db.collection("main").doc("6aLGOzyalCbBRxRdfpt5");
+
+    mainDocument.get().then(function(doc) {
+      if (doc.exists) {
+
+        var about = doc.data().about;
+        aboutstr = about.replace(/pppp/g, "<br><br>");
+
+        document.getElementById("about-p").innerHTML = aboutstr;
+        document.getElementById("about-img-caption").innerHTML = doc.data().aboutImageCaption;
+        document.getElementById("volunteer-h").innerHTML = doc.data().volunteer;
+
+      } else {
+        console.log("No such document in Firestore!");
+      }
+    }).catch(function(error) {
+      console.log("Error getting document: ", error);
+    });
+
+    policies.get().then(function(querySnapshot) {
+      var index = 1;
+      querySnapshot.forEach(function(doc) {
+        console.log("i: " + index);
+        
+        var accordion = document.getElementById("policiesAccordion");
+
+        var card = document.createElement("div");
+        card.setAttribute("class", "card");
+
+        var cardheader = document.createElement("div");
+        cardheader.setAttribute("class", "card-header");
+        cardheader.setAttribute("id", "policytitle" + index);
+
+        var h2 = document.createElement("h2");
+        h2.setAttribute("class", "mb-0");
+
+        var button = document.createElement("button");
+        button.setAttribute("class", "btn btn-link text-dark pt-0 pb-0 policy-btn");
+        button.setAttribute("type", "button");
+        button.setAttribute("data-toggle", "collapse");
+        button.setAttribute("data-target", "#policybody" + index);
+        button.setAttribute("aria-expanded", "true");
+        button.setAttribute("aria-controls", "policybody" + index);
+        button.innerHTML = doc.data().title;
+        h2.appendChild(button);
+
+        cardheader.appendChild(h2);
+
+        card.appendChild(cardheader);
+
+        var policybody = document.createElement("div");
+        if (index < 2)
+          policybody.setAttribute("class", "collapse show");
+        else
+          policybody.setAttribute("class", "collapse");
+        policybody.setAttribute("id", "policybody" + index);
+        policybody.setAttribute("aria-labelledby", "policytitle" + index);
+        policybody.setAttribute("data-parent", "#policiesAccordion");
+
+        var cardbody = document.createElement("div");
+        cardbody.setAttribute("class", "card-body");
+        cardbody.innerHTML = doc.data().body;
+        policybody.appendChild(cardbody);
+
+        card.appendChild(policybody);
+
+        accordion.appendChild(card);
+
+        index++;
+        
+      });
+    }).catch(function(error) {
+      console.log("Error getting document: ", error);
+    });
+  }
 
     window.onscroll = function() {
       var home = document.getElementById('home-container');
@@ -292,19 +386,13 @@
   <div class="container text-light" id="about-container">
     <div class="row feature-row">
       <div class="col-sm-8">
-        <p>My name is Oliver Warren and I am running for Wooster City Council at-Large.<br><br>
-           I currently serve as a social studies teacher at Wooster High School, my alma mater. I was employed immediately after I graduated from the College of Wooster with a BA in Political Science and Education. While growing up and attending school in Wooster, I experienced what it means to be in poverty in our community. <br><br>
-           For the past three years, I have been a community organizer and advocate on behalf of the most marginalized, vulnerable, and disenfranchised in our community. I translated my advocacy for the marginalized and working- and middle-classes into my undergraduate thesis on local policies and politics to combat housing issues and poverty. I have led in, founded, and built multiple organizations that have fought on behalf of the people, including: the CommUNITY Coalition, Concerned Citizens of Wayne County, Indivisible Wooster, and the Wooster-Orrville NAACP. In the same span of time, I have participated in multiple campaigns for public office; most recently I served as campaign manager for Kevin Barnet for Ohio. <br><br>
-           When I am elected to Council, I will push for affordable housing and equitable development, road and city infrastructure improvement, public transportation, and a minimum wage increase. <br><br>
-           I will also work towards transparency, participation, and engagement with folks who have not had the time or privilege to be involved in their local government. I pledge to listen to your concerns and do my best to address them. My office will be open to anyone.<br><br>
-           I have been fighting for children and working people my whole professional life. I will continue to do so as your next City Councilman. <span class="font-weight-bold">#WarrenforWooster</span>
-          </p>
+          <p id="about-p"></p>
       </div>
       <div class="col-sm-4 mt-auto mb-auto">
         <div class="card">
           <img src="images/oli.jpg" class="card-img-top" alt="about image">
           <div class="card-body text-center">
-            <h5 class="card-text text-dark">Oliver Warren</h5>
+            <h5 class="card-text text-dark" id="about-img-caption"></h5>
           </div>
         </div>
       </div>
@@ -315,8 +403,11 @@
     <h1 class="text-center text-light font-weight-bold">Policies</h1>
     <div class="row feature-row">
       <div class="col">
-        <div class="accordion" id="accordionExample">
-          <div class="card">
+        <div class="accordion" id="policiesAccordion">
+
+
+
+          <!-- <div class="card">
             <div class="card-header" id="headingOne">
               <h2 class="mb-0">
                 <button class="btn btn-link text-dark pt-0 pb-0 policy-btn" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -324,44 +415,14 @@
                 </button>
               </h2>
             </div>
-            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#policiesAccordion">
               <div class="card-body">
-                Wooster is a city that has done wonders with (re)development. From our beautiful downtown to our expanding north end, we have truly been a city focused on growth. But with growth comes problems our government has failed to address. Poverty, homelessness, and a lack of affordable housing are chief on that list of problems. <br>
-                Our issues with affordable housing come in many forms. Whether it is absentee/slum landlords, the decline of our historic and southern neighborhoods, or the lack of truly equitable new housing units, we need bold new solutions--starting with a mandatory proportion of affordable housing units in new developments and community investment in our downtown neighborhoods. 
               </div>
             </div>
-          </div>
-          <div class="card">
-            <div class="card-header" id="headingTwo">
-              <h2 class="mb-0">
-                <button class="btn btn-link collapsed text-dark pt-0 pb-0 policy-btn" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                  Public Transportation
-                </button>
-              </h2>
-            </div>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-              <div class="card-body">
-                Whether it is through public support of the existing Wooster Transit organization or developing a totally new transportation system, the need in town is undeniable. <br>
-                We have a labor shortage despite having good jobs and an available workforce. A partial solution is to public transportation for workers without vehicles. <br>
-                The youth in our town are eager to get around and contribute to our local economy. A public transportation system would provide the means for that. <br>
-                Public transit reduces crime and traffic as well as increases safety and the overall quality of life in cities and towns. 
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header" id="headingThree">
-              <h2 class="mb-0">
-                <button class="btn btn-link collapsed text-dark pt-0 pb-0 policy-btn" type="button pt-0 pb-0" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                  City Infrastructure
-                </button>
-              </h2>
-            </div>
-            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-              <div class="card-body">
-                We need to improve our town’s infrastructure. Water and sewer systems need repaired and replaced. Neighborhoods need street signs, speed limit signs, and lane lines. Our parks need maintained. Above all, we need to fix our roads and fix them right. We need to break the cycle of repair and disrepair, for the good of every driver in Wooster. We could all use an alignment after that last winter, I’m sure.
-              </div>
-            </div>
-          </div>
+          </div> -->
+
+
+
         </div>
       </div>
     </div>
@@ -374,7 +435,7 @@
   <div class="container-fluid text-center bg-dark" id="volunteer-container">
     <div class="row feature-row">
       <div class="col-sm-6 text-light pl-5 pr-5 mt-auto mb-auto">
-        <h5>Come see us over at CrowdPac!</h5>
+        <h5 id="volunteer-h"></h5>
         <a href="https://www.crowdpac.com/c/warrenforwooster" target="_blank" class="btn btn-lg btn-block btn-primary mt-5 ml-auto mr-auto" id="donate-btn" style="width: 80%;">DONATE</a>
       </div>
       <div class="col-sm-6">
@@ -557,25 +618,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-  <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/6.0.0/firebase-app.js"></script>
-
-  <!-- TODO: Add SDKs for Firebase products that you want to use
-      https://firebase.google.com/docs/web/setup#config-web-app -->
-
-  <script>
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-      apiKey: "AIzaSyCIzcOnqpTBIbQYpo3q0LLIpjab2_LLeLE",
-      authDomain: "warren-1554575635762.firebaseapp.com",
-      databaseURL: "https://warren-1554575635762.firebaseio.com",
-      projectId: "warren-1554575635762",
-      storageBucket: "warren-1554575635762.appspot.com",
-      messagingSenderId: "573362024234",
-      appId: "1:573362024234:web:cd46082f1c45cb35"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-  </script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.0/firebase-firestore.js"></script>
 </body>
 </html>
