@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="shortcut icon" href="favicon.ico" /> 
+  <meta charset="utf-8">
+  <title>Warren</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="admin.css">
+  
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+  <!-- Default font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+
+  <!-- Jumbotron 'Wooster' font -->
+  <link href="https://fonts.googleapis.com/css?family=Bilbo+Swash+Caps" rel="stylesheet">
+
+  <!-- Jumbotron 'Warren' font -->
+  <link href="https://fonts.googleapis.com/css?family=Cinzel" rel="stylesheet">
+
+  <!-- Twitter API -->
+  <meta name="twitter:widgets:theme" content="dark">
+
+  <!-- Social Icons -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+</head>
+
+<body onload="loadData()">
+
+  <script>
+    function loadData() {
+      // Initialize Cloud Firestore through Firebase
+      if (!firebase.apps.length) {
+        console.log("initializing firebase...");
+        firebase.initializeApp({
+          apiKey: 'AIzaSyCIzcOnqpTBIbQYpo3q0LLIpjab2_LLeLE',
+          authDomain: 'warren-1554575635762.firebaseapp.com',
+          projectId: 'warren-1554575635762'
+        });
+      }
+      var db = firebase.firestore();
+
+      var policies = db.collection("policies");
+      var mainDocument = db.collection("main").doc("6aLGOzyalCbBRxRdfpt5");
+
+      mainDocument.get().then(function(doc) {
+        if (doc.exists) {
+
+          document.getElementById("about").innerHTML = doc.data().about;
+          document.getElementById("aboutImageCaption").value = doc.data().aboutImageCaption;
+          document.getElementById("volunteer").innerHTML = doc.data().volunteer;
+
+        } else {
+          console.log("No such document in Firestore!");
+        }
+      }).catch(function(error) {
+        console.log("Error getting document: ", error);
+      });
+
+      policies.get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc, i) {
+        var span = document.getElementById("policies_span");
+        var div = document.createElement("div");
+        div.setAttribute("class", "form-group");
+
+        var input = document.createElement("input");
+        input.setAttribute("type", "text");
+        input.setAttribute("class", "form-control");
+        input.setAttribute("name", "policytitle" + i);
+        input.setAttribute("id", "policytitle" + i);
+        input.value = doc.data().title;
+        div.appendChild(input);
+        
+        var ta = document.createElement("textarea");
+        ta.setAttribute("class", "form-control");
+        ta.setAttribute("name", "policybody" + i);
+        ta.setAttribute("id", "policybody" + i);
+        ta.value = doc.data().body;
+        div.appendChild(ta);
+
+        span.appendChild(div);
+      });
+    }).catch(function(error) {
+      console.log("Error getting document: ", error);
+    });
+  }
+
+    function update() {
+
+      var db = firebase.firestore();
+
+      var policies = db.collection("policies");
+      var mainDocument = db.collection("main").doc("6aLGOzyalCbBRxRdfpt5");
+
+      return mainDocument.update({
+        about: document.getElementById('about').value,
+        aboutImageCaption: document.getElementById('aboutImageCaption').value,
+        volunteer: document.getElementById('volunteer').value
+      })
+      .then(function() {
+        console.log("Doc updated!");
+        window.alert("Success!");
+      })
+      .catch(function(error) {
+        console.error("Error updating document: ", error);
+        window.alert("Failed! Refresh the page and try again")
+      })
+
+      return
+    }
+
+  </script>
+
+  <div class="jumbotron text-center">
+    <h1>Warren for Wooster</h1>
+    <h2>Admin Page</h2>
+  </div>
+
+  <div class="container pb-5">
+    <div class="row">
+      <div class="col">
+        <form>
+          <h3>About</h3>
+          <div class="form-group">
+            <label for="about">About</label>
+            <br>
+            <small><i>To mark a new paragraph, use "pppp". Don't actually make a new paragraph.</i></small>
+            <textarea class="form-control" name="about" id="about"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="aboutImageCaption">About Image Caption</label>
+            <input type="text" class="form-control" name="aboutImageCaption" id="aboutImageCaption">
+          </div>
+          <h3>Policies</h3>
+          <small><i>Stick with 3 for now - I will add ability to add/remove policies in a future update</i></small>
+          <span id="policies_span">
+          </span>
+          <div class="form-group">
+            <button class="btn btn-outline-primary" disabled>+</button>
+          </div>
+          <h3>Volunteer</h3>
+          <div class="form-group">
+            <label for="volunteer">Volunteer</label>
+            <textarea class="form-control" name="volunteer" id="volunteer"></textarea>
+          </div>
+          <input type="button" class="btn btn-primary btn-lg btn-block" id="updatebtn" onclick="update()" value="UPDATE">
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/6.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.0/firebase-firestore.js"></script>
+</body>
+</html>
