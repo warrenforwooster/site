@@ -130,19 +130,35 @@
           <div class="form-group">
             <label for="about">About</label>
             <br>
-            <small><i>To mark a new paragraph, use "pppp". Don't actually make a new paragraph.</i></small>
-            <textarea class="form-control" name="about" id="about"></textarea>
+            
+            <textarea class="form-control" rows="8" name="about" id="about"></textarea>
+            <div class="text-right">
+              <small style="float: right;">
+              <i>
+                You can expand the textarea 
+                <i class="material-icons" style="font-size: 14px;">
+                  arrow_upward
+                </i>
+              </i>
+            </small>
+          </div><small>
+              <i>To mark a new paragraph, use "pppp" (<u>don't</u> actually make a new paragraph w/ return 
+                <i class="material-icons" style="font-size: 14px;">
+                  keyboard_return
+                </i>
+                key)</i>
+              </small>
           </div>
           <div class="form-group">
             <label for="aboutImageCaption">About Image Caption</label>
             <input type="text" class="form-control" name="aboutImageCaption" id="aboutImageCaption">
           </div>
           <h3>Policies</h3>
-          <small><i>Stick with 3 for now - I will add ability to add/remove policies in a future update</i></small>
           <span id="policies_span">
           </span>
           <div class="form-group">
             <button class="btn btn-outline-primary" disabled>+</button>
+            <small><i>Stick with 3 for now - I will add ability to add/remove policies in a future update</i></small>
           </div>
           <h3>Volunteer</h3>
           <div class="form-group">
